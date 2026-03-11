@@ -1,4 +1,5 @@
 import httpx
+import pycountry
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
@@ -49,14 +50,20 @@ class ExchangeRateService:
         new_codes = incoming_codes - existing_codes
         
         if new_codes:
-            new_currencies = [
-                Currency(
-                    code=code,
-                    iso_code=f"ISO_{code}",
-                    name=f"Currency {code}",
-                    is_monitored=False
-                ) for code in new_codes
-            ]
+            new_currencies = []
+            for code in new_codes:
+                currency_info = pycountry.currencies.get(numeric=str(code).zfill(3))
+                iso_code = currency_info.alpha_3 if currency_info else str(code)
+                name = currency_info.name if currency_info else f"Currency {code}"
+
+                new_currencies.append(
+                    Currency(
+                        code=code,
+                        iso_code=iso_code,
+                        name=name,
+                        is_monitored=False
+                    )
+                )
             Currency.objects.bulk_create(new_currencies)
 
     @classmethod
