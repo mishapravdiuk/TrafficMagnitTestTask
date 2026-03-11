@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "trafficmagnittesttask"
+version = "0.1.0"
+description = ""
+authors = ["mykhailo.pravdiuk <>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^6.0.3"
+psycopg2-binary = "^2.9.11"
+httpx = {extras = ["http2"], version = "^0.28.1"}
+djangorestframework = "^3.16.1"
+django-filter = "^25.2"
+drf-spectacular = "^0.29.0"
+celery = "^5.6.2"
+redis = "^7.3.0"
+pydantic = "^2.12.5"
+black = "^26.3.0"
+flake8 = "^7.3.0"
+isort = "^8.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
