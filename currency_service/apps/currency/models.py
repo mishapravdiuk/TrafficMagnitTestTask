@@ -3,13 +3,12 @@ from django.db import models
 
 class Currency(models.Model):
     code = models.PositiveIntegerField(unique=True, help_text="ISO 4217 numeric code")
-    iso_code = models.CharField(max_length=3, unique=True)
+    iso_code = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=50, blank=True)
     is_monitored = models.BooleanField(default=False, db_index=True)
 
     class Meta:
-        verbose_name_plural = "currencies"
-        db_table = "Currencies"
+        db_table = "currencies"
         verbose_name = "Currency"
         verbose_name_plural = "Currencies"
 

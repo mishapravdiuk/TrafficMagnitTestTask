@@ -25,6 +25,34 @@ services:
       redis:
         condition: service_healthy
 
+  celery_worker:
+    build: .
+    container_name: currency_service_worker
+    restart: on-failure
+    command: celery -A services worker -l info
+    volumes:
+      - ./currency_service:/currency_service
+    env_file:
+      - ./currency_service/configs/file.env
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  celery_beat:
+    build: .
+    container_name: currency_service_beat
+    restart: on-failure
+    command: celery -A services beat -l info
+    volumes:
+      - ./currency_service:/currency_service
+    env_file:
+      - ./currency_service/configs/file.env
+    depends_on:
+      redis:
+        condition: service_healthy
+
   postgres:
     container_name: currency_service_postgres
     restart: on-failure
