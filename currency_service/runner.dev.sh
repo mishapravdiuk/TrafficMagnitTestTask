@@ -1,3 +1,4 @@
+sleep 10
 echo "Checking for migrations."
 python manage.py migrate
 echo "Migrations have already been made."
